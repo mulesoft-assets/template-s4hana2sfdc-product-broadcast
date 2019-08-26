@@ -132,7 +132,7 @@ To use this template, configure properties such as credentials, configurations, 
 **Scheduler Configuration**
 
 - scheduler.frequency `10000`
-- scheduler.startDelay `100`
+- scheduler.start.delay `100`
 
 **Watermarking Default Last Query Timestamp**
 
