@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:s4hana="http://www.mulesoft.org/schema/mule/s4hana" xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+    xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/s4hana http://www.mulesoft.org/schema/mule/s4hana/current/mule-s4hana.xsd">
+    <flow name="endpointsFlow" doc:id="dac12012-1057-47d3-9435-951ff5049b1d">
+        <scheduler doc:name="Scheduler" doc:id="a81aea6b-90e8-486d-a16c-c63f5eee8813">
+            <scheduling-strategy>
+                <fixed-frequency frequency="${scheduler.frequency}" startDelay="${scheduler.start.delay}" />
+            </scheduling-strategy>
+        </scheduler>
+        <flow-ref doc:name="Call queryFlow" doc:id="de7dc394-b686-4519-8d48-4602dfa9c709" name="queryFlow" />
+        <flow-ref doc:name="Call businessLogicFlow" doc:id="b69e3d6b-87af-4606-b1dc-b5ba1ec78844" name="businessLogicFlow" />
+		<ee:transform doc:name="Build response" doc:id="1456e717-fae2-4c21-9104-93c1d1f13588">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+ ---
+ {
+ 	Message: "Batch Process initiated",
+ 	ID: payload.id,
+ 	RecordCount: payload.recordCount,
+ 	StartExecutionOn: payload.creationTime as DateTime
+ }
+ ]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="queryFlow">
+        <os:retrieve key="watermark" target="lastQueryTimestamp" doc:name="Retrieve lastQueryTimestamp" objectStore="Object_store">
+            <os:default-value><![CDATA[#[p('watermark.default.expression')]]]></os:default-value>
+        </os:retrieve>
+
+        <s4hana:query doc:name="Query SalesOrder" doc:id="968491c2-a9c3-48e8-9b31-56e9da05655d" config-ref="SAP_S_4HANA_Config" service="API_PRODUCT_SRV"
+            entityType="A_Product" filter="#[&quot;LastChangeDate gt datetime'&quot; ++ vars.lastQueryTimestamp as String ++ &quot;'&quot;]"/>
+		<ee:transform doc:name="Mapping for Salesforce" doc:id="50c141e2-2f5d-4167-bb7f-557e259c56fc">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+payload map {
+	Name: $.ProductType ++ " " ++ $.Product,
+	ProductCode: $.Product ,
+	Description : $.ProductType
+}
+]]></ee:set-payload>
+            </ee:message>
+            <ee:variables>
+				<ee:set-variable variableName="lastDate" ><![CDATA[%dw 2.0
+output application/java
+---
+if (isEmpty(payload) ) {
+	date: vars.lastQueryTimestamp	
+}
+else {
+ date: max(payload.LastChangeDate) as DateTime as String { format: "yyyy-MM-dd'T'HH:mm:ss" }
+ }]]></ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+		<os:store key="watermark" failOnNullValue="false" doc:name="Store lastQueryTimestamp" objectStore="Object_store">
+            <os:value><![CDATA[#[vars.lastDate.date]]]></os:value>
+        </os:store>
+
+    </flow>
+</mule>
