@@ -28,22 +28,22 @@
     </build>
 
     <dependencies>
-		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-salesforce-connector</artifactId>
-			<classifier>mule-plugin</classifier>
-		</dependency>
+        <dependency>
+            <groupId>com.mulesoft.connectors</groupId>
+            <artifactId>mule-salesforce-connector</artifactId>
+            <classifier>mule-plugin</classifier>
+        </dependency>
         <dependency>
             <groupId>org.mule.connectors</groupId>
             <artifactId>mule-objectstore-connector</artifactId>
             <classifier>mule-plugin</classifier>
         </dependency>
-		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-sap-s4hana-cloud-connector</artifactId>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
+        <dependency>
+            <groupId>com.mulesoft.connectors</groupId>
+            <artifactId>mule-sap-s4hana-cloud-connector</artifactId>
+            <classifier>mule-plugin</classifier>
+        </dependency>
+        <dependency>
             <groupId>org.mule.modules</groupId>
             <artifactId>mule-scripting-module</artifactId>
             <classifier>mule-plugin</classifier>
