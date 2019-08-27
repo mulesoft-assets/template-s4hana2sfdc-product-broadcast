@@ -128,6 +128,7 @@ To use this template, configure properties such as credentials, configurations, 
 <!-- Application Configuration (start) -->
 **Batch Aggregator Configuration**
 - page.size `200`
+- aggregator.size `100`
 
 **Scheduler Configuration**
 
