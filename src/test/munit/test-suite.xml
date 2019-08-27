@@ -74,9 +74,9 @@ output application/java
         </munit:execution>
         <munit:validation>
             <munit-tools:assert-that doc:name="Assert migrated test record" doc:id="35f406bb-a92d-4509-b784-4211910d7cbf" expression="#[vars.migratedTestInsertProduct.Name]"
-                is="#[MunitTools::equalTo(vars.testData.testInsertProduct.Name)]" message="Assert test didn't migrate record" />
+                is="#[MunitTools::equalTo(vars.testData.testInsertProduct.Name)]" message="Test record has not been migrated" />
              <munit-tools:assert-that doc:name="Assert updated test record" doc:id="26feaa76-a72b-4644-8f24-664558d158fb" expression="#[vars.migratedTestUpdateProduct.Name]"
-                is="#[MunitTools::equalTo(vars.testData.testUpdateProduct.Name)]" message="Assert test didn't update record" />
+                is="#[MunitTools::equalTo(vars.testData.testUpdateProduct.Name)]" message="Test record has not been updated" />
             <munit-tools:verify-call doc:name="Verify call to s4hana query " doc:id="3e2e1dc2-7aea-48d1-9498-8a546d38a2c0" processor="s4hana:query"
                 atLeast="1" times="1" />
             <munit-tools:verify-call doc:name="Verify call to Salesforce query" doc:id="b4413b07-01d4-484d-be4b-9655ecf41cf4" processor="salesforce:query-single"
