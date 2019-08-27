@@ -82,7 +82,7 @@ output application/java
             <munit-tools:verify-call doc:name="Verify call to Salesforce query" doc:id="b4413b07-01d4-484d-be4b-9655ecf41cf4" processor="salesforce:query-single"
                 times="4" atLeast="2" />
             <munit-tools:verify-call doc:name="Verify call to Salesforce upsert" doc:id="80c2bedc-95ea-45bb-a675-1508d597dd4a" processor="salesforce:upsert"
-                times="2" atLeast="2" />
+                times="1" atLeast="1" />
         </munit:validation>
     </munit:test>
     <sub-flow name="getMigratedTestDataSubFlow" doc:id="b8dd4f21-8cf6-4059-873b-26288608a8ef" >

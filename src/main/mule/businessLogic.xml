@@ -34,11 +34,12 @@ payload ++ {Id : vars.sfdcId}]]></ee:set-payload>
 					<logger level="INFO" doc:name="Log’s data input to Salesforce upsert" doc:id="d65b1348-1d07-488c-81f9-25d31af8a2ac" message="#[output application/json --- payload]"/>
                 </batch:step>
                 <batch:step name="upsertProductInSalesforceStep" doc:id="0faf8e94-bc67-4aec-a07f-685312d006ec">
-                    <salesforce:upsert type="Product2" doc:name="Upsert Product in Salesforce" doc:id="9f5a6c25-8499-4866-9c2f-00441d36dded" externalIdFieldName="Id"
-                        config-ref="Salesforce_Config">
-						<salesforce:records ><![CDATA[#[[payload]]]]></salesforce:records>
+					<batch:aggregator doc:name="Batch Aggregator" doc:id="5e4e5166-42c8-4be9-8198-ead74d8ca9ff" size="${aggregator.size}">
+						<logger level="INFO" doc:name="Log's result" doc:id="9373ad80-0edd-41d3-bcd6-fe36be0e252d" message="#[output application/json --- payload]" />
+						<salesforce:upsert type="Product2" doc:name="Upsert Product in Salesforce" doc:id="9f5a6c25-8499-4866-9c2f-00441d36dded" externalIdFieldName="Id" config-ref="Salesforce_Config">
+							<salesforce:records ><![CDATA[#[payload]]]></salesforce:records>
                     </salesforce:upsert>
-                    <logger level="INFO" doc:name="Log's result" doc:id="9373ad80-0edd-41d3-bcd6-fe36be0e252d" message="#[output application/json --- payload]" />
+					</batch:aggregator>
                 </batch:step>
             </batch:process-records>
             <batch:on-complete>

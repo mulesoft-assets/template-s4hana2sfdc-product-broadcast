@@ -47,6 +47,7 @@ Here's what you need to know about Salesforce to get this template to work.
 		<section id="application_configuration">
 **Batch Aggregator Configuration**
 - page.size `200`
+- aggregator.size `100`
 
 **Scheduler Configuration**
 
