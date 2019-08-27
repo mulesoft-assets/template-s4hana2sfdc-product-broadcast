@@ -34,7 +34,7 @@ output application/json
             <os:default-value><![CDATA[#[p('watermark.default.expression')]]]></os:default-value>
         </os:retrieve>
 
-        <s4hana:query doc:name="Query SalesOrder" doc:id="968491c2-a9c3-48e8-9b31-56e9da05655d" config-ref="SAP_S_4HANA_Config" service="API_PRODUCT_SRV"
+        <s4hana:query doc:name="Query Product" doc:id="968491c2-a9c3-48e8-9b31-56e9da05655d" config-ref="SAP_S_4HANA_Config" service="API_PRODUCT_SRV"
             entityType="A_Product" filter="#[&quot;LastChangeDate gt datetime'&quot; ++ vars.lastQueryTimestamp as String ++ &quot;'&quot;]"/>
 		<ee:transform doc:name="Mapping for Salesforce" doc:id="50c141e2-2f5d-4167-bb7f-557e259c56fc">
             <ee:message>
