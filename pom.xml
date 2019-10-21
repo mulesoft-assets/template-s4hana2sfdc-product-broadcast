@@ -100,4 +100,4 @@
         </repository>
     </repositories>
 
-</project>
+<scm><connection>scm:git:git@github.com:mulesoft/template-s4hana2sfdc-product-broadcast.git</connection><developerConnection>scm:git:git@github.com:mulesoft/template-s4hana2sfdc-product-broadcast.git</developerConnection><url>https://github.com/mulesoft/template-s4hana2sfdc-product-broadcast</url><tag>HEAD</tag></scm></project>
